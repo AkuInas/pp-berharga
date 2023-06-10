@@ -1,0 +1,1 @@
+{0: 'matang', 1: 'mentah', 2: 'sangat matang'}

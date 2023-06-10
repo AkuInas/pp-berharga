@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Klasifikasi Tingkat Kematangan Pisang</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="static/style.css">
+<style>
+body,h1 {font-family: "Raleway", Arial, sans-serif}
+h1 {letter-spacing: 6px}
+.w3-row-padding img {margin-bottom: 12px}
+</style>
+</head>
+<body>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-content" style="max-width:1500px">
+
+<!-- Header -->
+<header class="w3-panel w3-center w3-opacity" style="padding:128px 16px" >
+  <h1 class="w3-xlarge">Klasifikasi</h1>
+  <h1>Tingkat Kematangan Pisang</h1>
+  
+  <div class="w3-padding-32">
+    <div class="w3-bar w3-border">
+      <a href="/" class="w3-bar-item w3-button">Klasifikasi</a>
+      <a href="/model" class="w3-bar-item w3-button w3-light-grey">Model CNN</a>
+      <!-- <a href="/grafik" class="w3-bar-item w3-button w3-light-grey">Grafik</a> -->
+    </div>
+  </div>
+</header>
+
+<!-- Isi laporan -->
+<div class="konten">
+    <form action="/model" method="post" enctype="multipart/form-data">
+      <h4>Training dan Testing</h1>
+      <p>Input Epoch</p>
+      <input type="text" name="epoch" placeholder="Masukan epoch">
+      <input type="submit" name="epoch">
+      <br> <br>
+
+      <!-- tabel data -->
+      <h5>Contoh Data</h5>
+      <div class="center-table">
+        {% if df is not none %}
+        <table class="border">
+          <thead>
+            <tr>
+              <th>Filepaths</th>
+              <th>Labels</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for index, row in df.head(5).iterrows() %}
+            <tr>
+              <td>{{ row['filepaths'] }}</td>
+              <td>{{ row['labels'] }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+              <td> Total Data</td>
+              <td>216</td>
+            </tr>
+          </tbody>
+        </table>
+        {% else %}
+        <p>No DataFrame available.</p>
+        {% endif %}
+      </div>
+        <!-- tabel selesai -->
+
+        <br>
+        <!-- split -->
+        <h5>Split Data</h5>
+        <div class="split">
+          {% if lengths %}
+            <table class="border">
+              <tbody>
+                <tr>
+                  <td>Jumlah data train</td>
+                  <td>{{ lengths.train_df }}</td>
+                </tr>
+                <tr>
+                  <td>Jumlah data test</td>
+                  <td>{{ lengths.test_df }}</td>
+                </tr>
+                <tr>
+                  <td>Jumlah data validation</td>
+                  <td>{{ lengths.valid_df }}</td>
+                </tr>
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+      <!-- split selesai -->
+        <br>
+      
+      <!-- Augmented -->
+      <h5>Augmentasi</h5>
+      {% if ori %}
+      <img src="{{ ori }}" style="max-width: 300px; height: auto;">
+      {% else %}
+      <p>No plot available</p>
+      {% endif %}
+
+      {% if augmented %}
+      <img src="{{ augmented }}" style="max-width: 300px; height: auto;">
+      {% else %}
+      <p>No plot available</p>
+      {% endif %}
+      <br>
+
+      <!-- feature extraction -->
+      <!-- <h5>Contoh Layer Konvolusi</h5>
+      {% if encoded_image %}
+      <img src="data:image/png;base64,{{ encoded_image }}" style="max-width: 500px; height: auto;">
+      {% else %}
+      <p>No plot available</p>
+      {% endif %}
+      <br> -->
+
+      <!-- Display the plot -->
+      <h5>Akurasi dan Loss</h5>
+      {% if plot_filename %}
+      <img src="{{plot_filename}}" >
+      {% else %}
+      <p>No plot available</p>
+      {% endif %}
+      <br>
+
+      <!-- confusion matrix -->
+      <h5>Confusion Matrix</h5>
+      {% if cm %}
+      <img src="{{cm}}" alt="Confusion Matrix">
+      {% else %}
+      <p>No plot available</p>
+      {% endif %}
+      <br>
+
+      <!-- classification report -->
+      <h5>Classification Report</h5>
+      {% if clr %}
+      <pre>{{clr}}</pre>
+      {% endif %}
+    </form>
+  
+
+</div>
+<!-- End Page Content -->
+
+
+<!-- Footer -->
+<footer class="footer"> 
+  <p>&copy; 2023</p>
+</footer>
+
+</body>
+</html>
